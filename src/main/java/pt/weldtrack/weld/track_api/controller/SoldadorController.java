@@ -1,6 +1,7 @@
 package pt.weldtrack.weld.track_api.controller;
 
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pt.weldtrack.weld.track_api.model.ConsumivelEntity;
@@ -14,6 +15,8 @@ import java.util.List;
 @RequestMapping ("/api/soldadores")
 
 public class SoldadorController {
+
+    private final String CHAVE = "weldtrack123";
 
     private final SoldadorService service;
 
@@ -38,8 +41,14 @@ public class SoldadorController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(
+            @PathVariable Long id,
+            @RequestHeader(value = "X-Admin-Key", required = false) String chaveRecebida) {
+        if (chaveRecebida == null || !chaveRecebida.equals(CHAVE)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Erro: nao tem autorizaçãoo para criar registos");
+        }
         service.delete(id);
+        return ResponseEntity.ok("Registo " + id + " apagado com sucesso.");
     }
 
 }
