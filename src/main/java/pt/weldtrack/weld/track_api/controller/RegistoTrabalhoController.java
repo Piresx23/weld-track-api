@@ -1,11 +1,13 @@
 package pt.weldtrack.weld.track_api.controller;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pt.weldtrack.weld.track_api.model.EquipamentoEntity;
 import pt.weldtrack.weld.track_api.model.RegistoTrabalhoEntity;
+import pt.weldtrack.weld.track_api.secutiry.SecurityInterceptor;
 import pt.weldtrack.weld.track_api.service.RegistoTrabalhoService;
 
 import java.util.List;
@@ -17,11 +19,12 @@ import java.util.Map;
 public class RegistoTrabalhoController{
 
     private final RegistoTrabalhoService service;
+    private final SecurityInterceptor security;
 
-    private final String CHAVE = "weldtrack123";
 
-    public RegistoTrabalhoController(RegistoTrabalhoService service) {
+    public RegistoTrabalhoController(RegistoTrabalhoService service, SecurityInterceptor security) {
         this.service = service;
+        this.security = security;
     }
 
     @GetMapping("/{id}")
@@ -38,20 +41,22 @@ public class RegistoTrabalhoController{
     @PostMapping
     public ResponseEntity<?> criar(
             @RequestBody RegistoTrabalhoEntity r,
-            @RequestHeader(value = "X-Admin-Key", required = false) String chaveRecebida) {
-        if (chaveRecebida == null || !chaveRecebida.equals(CHAVE)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Erro: nao tem autorizaçãoo para criar registos");
-        }
+            HttpServletRequest request,
+            @RequestHeader(value = "X-Role", required = false) String role,
+            @RequestHeader(value = "X-API-Key", required = false) String apiKey) {
+
+        security.verificarPermissao(request, "SUPERVISOR");
         return ResponseEntity.ok(service.criar(r));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> delete(
             @PathVariable Long id,
-            @RequestHeader(value = "X-Admin-Key", required = false) String chaveRecebida) {
-        if (chaveRecebida == null || !chaveRecebida.equals(CHAVE)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Erro: nao tem autorizaçãoo para criar registos");
-        }
+            HttpServletRequest request,
+            @RequestHeader(value = "X-Role", required = false) String role,
+            @RequestHeader(value = "X-API-Key", required = false) String apiKey) {
+
+        security.verificarPermissao(request, "ADMIN");
         service.delete(id);
         return ResponseEntity.ok("Registo " + id + " apagado com sucesso.");
     }
