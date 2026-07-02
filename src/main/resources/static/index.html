@@ -2,105 +2,305 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <title>Painel Geral da API weldtrack</title>
+  <title>WeldTrack - Sistema de Gestão</title>
   <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      max-width: 900px;
-      margin: 60px auto;
-      padding: 0 20px;
-      line-height: 1.6;
-      color: #2d3748;
-      background-color: #fcfcfc;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    h2 {
-      font-size: 28px;
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color: #2d3748;
+      background-color: #f7fafc;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #1a202c;
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    header h1 span {
+      color: #af0b10;
+    }
+
+    .nav-tag {
+      background-color: #af0b10;
+      color: #ffffff;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
       font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+      margin-bottom: 450px;
+    }
+
+    .section-about {
+      background: white;
+      padding: 32px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      margin-bottom: 32px;
+      border-top: 4px solid #af0b10;
+    }
+
+    .section-about h2 {
+      font-size: 24px;
+      color: #1a202c;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .section-about p {
+      color: #4a5568;
+      font-size: 16px;
+      margin-bottom: 24px;
+    }
+
+    .readme-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .readme-grid { grid-template-columns: 1fr; }
+    }
+
+    .readme-card {
+      background: #f8fafc;
+      padding: 20px;
+      border-radius: 6px;
+      border-left: 4px solid #718096;
+    }
+
+    .readme-card h3 {
+      font-size: 16px;
+      color: #1a202c;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .readme-card ul {
+      padding-left: 20px;
+      font-size: 14px;
+      color: #4a5568;
+    }
+
+    .readme-card li {
+      margin-bottom: 6px;
+    }
+
+    .tech-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    .tech-table td {
+      padding: 6px 10px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .tech-table td:first-child {
+      font-weight: 600;
+      color: #1a202c;
+      width: 40%;
+    }
+
+    .section-data {
+      background: white;
+      padding: 32px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      margin-bottom: 40px;
+    }
+
+    .section-data h2 {
+      font-size: 22px;
       color: #1a202c;
       margin-bottom: 8px;
     }
 
-    p {
+    .section-data .subtitle {
       color: #718096;
-      margin-top: 0;
+      font-size: 14px;
       margin-bottom: 24px;
     }
 
     .menu-botoes {
       display: flex;
+      flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
 
     button {
-      background-color: #af0b10;
-      color: white;
+      background-color: #ff0000;
+      color: #ffffff;
       border: none;
       padding: 12px 24px;
-      font-size: 15px;
+      font-size: 14px;
       cursor: pointer;
       border-radius: 6px;
       font-weight: 600;
-      letter-spacing: 0.3px;
-      transition: background-color 0.2s ease, transform 0.1s ease;
+      transition: all 0.2s ease;
     }
 
     button:hover {
-      background-color: #870a0a;
-    }
-
-    button:active {
-      transform: scale(0.98);
+      background-color: #af0b10;
     }
 
     button.active {
-      background-color: #ff0000;
-    }
-
-    hr {
-      border: 0;
-      border-top: 1px solid #e2e8f0;
-      margin: 32px 0;
+      background-color: #2d3748;
+      color: white;
     }
 
     #titulo-lista {
-      margin-top: 0;
-      margin-bottom: 16px;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 600;
-      color: #1a202c;
+      margin-bottom: 12px;
+      color: #2d3748;
     }
 
-    #resultado {
-      background: #1e1e1e;
-      color: #f4f4f4;
-      padding: 20px;
-      border-left: 5px solid #6e0505;
-      white-space: pre-wrap;
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    .table-container {
+      overflow-x: auto;
+      margin-top: 15px;
+    }
+
+    .dados-tabela {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
       font-size: 14px;
+    }
+
+    .dados-tabela th {
+      background-color: #edf2f7;
+      color: #2d3748;
+      font-weight: 700;
+      padding: 12px;
+      border-bottom: 2px solid #cbd5e0;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .dados-tabela td {
+      padding: 12px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #4a5568;
+    }
+
+    .dados-tabela tr:hover {
+      background-color: #f7fafc;
+    }
+
+    .mensagem-alerta {
+      padding: 16px;
+      background: #edf2f7;
       border-radius: 6px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      color: #4a5568;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
 
-<h2>Painel weldtrack API</h2>
-<p>Escolha o que deseja ver:</p>
+<header>
+  <h1>Weld<span>Track</span></h1>
+  <div class="nav-tag">Painel de Controlo da API</div>
+</header>
 
-<div class="menu-botoes">
-  <button onclick="carregarDados('http://localhost:8080/api/soldadores', 'Lista de Soldadores')">Soldadores</button>
-  <button onclick="carregarDados('http://localhost:8080/api/registotrabalho', 'Lista de registotrabalho')">RegistoTrabalho</button>
-  <button onclick="carregarDados('http://localhost:8080/api/equipamentos', 'Lista de equipamentos')">Equipamentos</button>
-  <button onclick="carregarDados('http://localhost:8080/api/consumiveis', 'Lista de consumiveis')">Consumiveis</button>
+<div class="container">
+
+  <section class="section-about">
+    <h2>WELD TRACK</h2>
+    <p>
+      A Weld Track é uma API feita para fazer a gestão, monitorização e controlo dos soldadores e dos seus registos de trabalho.
+      A aplicação permite registar a atividade diária, os tempos gastos e garantir a validação dos dados.
+    </p>
+
+    <div class="readme-grid">
+      <div class="readme-card">
+        <h3>Tecnologias Usadas</h3>
+        <table class="tech-table">
+          <tr><td>Java 21</td><td>Versão estável atualizada</td></tr>
+          <tr><td>SpringBoot 3.4.2</td><td>Framework principal</td></tr>
+          <tr><td>PostgreSQL</td><td>Base de Dados ativa</td></tr>
+          <tr><td>Springdoc OpenAPI 2.7.0</td><td>Documentação interativa</td></tr>
+          <tr><td>Maven</td><td>Gestor de dependências</td></tr>
+        </table>
+      </div>
+
+      <div class="readme-card">
+        <h3>Pré-Requisitos & Execução</h3>
+        <ul style="margin-bottom: 12px;">
+          <li>Java 21 instalado</li>
+          <li>PostgreSQL ativo (Porta 5432)</li>
+          <li>Maven configurado</li>
+        </ul>
+        <p style="font-size: 13px; color: #718096;">
+          Abra o projeto no IntelliJ, aguarde o Maven e execute a classe Main.
+        </p>
+      </div>
+
+      <div class="readme-card" style="grid-column: 1 / -1;">
+        <h3>Endpoints Disponíveis por Classe</h3>
+        <ul style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; list-style-type: square; padding-left: 20px;">
+          <li><strong>GET</strong> - Lista a informação</li>
+          <li><strong>GET (ID)</strong> - Procura pelo ID</li>
+          <li><strong>POST</strong> - Cria um novo registo</li>
+          <li><strong>PUT</strong> - Atualiza os dados</li>
+          <li><strong>DELETE</strong> - Apaga um registo</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-data">
+    <h2>Painel de Consulta Geral</h2>
+    <p class="subtitle">Selecione uma das entidades abaixo para extrair os dados em tempo real da base de dados:</p>
+
+    <div class="menu-botoes">
+      <button onclick="carregarDados('http://localhost:8080/api/soldadores', 'Lista de Soldadores')">Soldadores</button>
+      <button onclick="carregarDados('http://localhost:8080/api/registotrabalho', 'Lista de Registos de Trabalho')">Registo Trabalho</button>
+      <button onclick="carregarDados('http://localhost:8080/api/equipamentos', 'Lista de Equipamentos')">Equipamentos</button>
+      <button onclick="carregarDados('http://localhost:8080/api/consumiveis', 'Lista de Consumíveis')">Consumíveis</button>
+    </div>
+
+    <h3 id="titulo-lista">Aguardando seleção...</h3>
+
+    <div id="resultado" class="mensagem-alerta">
+      Os dados vão aparecer aqui organizados em tabelas quando clicar numa opção acima.
+    </div>
+  </section>
+
 </div>
-
-<hr>
-
-<h3 id="titulo-lista">Selecione uma opção acima...</h3>
-<div id="resultado">Os dados vão aparecer aqui quando clicar num botão.</div>
 
 <script>
   async function carregarDados(caminhoAPI, nomeClasse) {
@@ -108,11 +308,15 @@
     const campoTitulo = document.getElementById('titulo-lista');
 
     campoTitulo.innerText = nomeClasse;
+    campoResultado.className = "mensagem-alerta";
     campoResultado.innerText = "A carregar dados...";
 
     const botoes = document.querySelectorAll('.menu-botoes button');
     botoes.forEach(btn => btn.classList.remove('active'));
-    event.currentTarget.classList.add('active');
+
+    if (window.event && window.event.currentTarget) {
+      window.event.currentTarget.classList.add('active');
+    }
 
     try {
       const resposta = await fetch(caminhoAPI);
@@ -121,12 +325,37 @@
       const dados = await resposta.json();
 
       if (dados.length === 0) {
-        campoResultado.innerText = `A API ligou com sucesso, mas a lista de [${nomeClasse}] está vazia na Base de Dados.`;
-      } else {
-        campoResultado.innerText = JSON.stringify(dados, null, 2);
+        campoResultado.innerText = `A API respondeu com sucesso, mas a lista de [${nomeClasse}] está vazia na Base de Dados.`;
+        return;
       }
+
+      let chaves = Object.keys(dados[0]);
+
+      let tabelaHTML = '<div class="table-container"><table class="dados-tabela"><thead><tr>';
+      chaves.forEach(chave => {
+        tabelaHTML += `<th>${chave}</th>`;
+      });
+      tabelaHTML += '</tr></thead><tbody>';
+
+      dados.forEach(linha => {
+        tabelaHTML += '<tr>';
+        chaves.forEach(chave => {
+          let valor = linha[chave];
+          if (valor && typeof valor === 'object') {
+            valor = valor.id ? `ID: ${valor.id}` : JSON.stringify(valor);
+          }
+          tabelaHTML += `<td>${valor !== null ? valor : ''}</td>`;
+        });
+        tabelaHTML += '</tr>';
+      });
+      tabelaHTML += '</tbody></table></div>';
+
+      campoResultado.className = "";
+      campoResultado.innerHTML = tabelaHTML;
+
     } catch (erro) {
-      campoResultado.innerText = "Erro ao ligar a este endpoint: " + erro.message;
+      campoResultado.className = "mensagem-alerta";
+      campoResultado.innerText = "Erro ao ligar à API: " + erro.message;
     }
   }
 </script>
