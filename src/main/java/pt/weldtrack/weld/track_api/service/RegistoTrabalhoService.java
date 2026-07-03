@@ -41,15 +41,15 @@ public class RegistoTrabalhoService {
     }
 
     public Map<String, Integer> calcularMinutosPorSoldador() {
-        List<RegistoTrabalhoEntity> registos = this.getALL();
+        List<RegistoTrabalhoEntity> registos = repository.findAll();
 
         return registos.stream()
                 .filter(r -> r.getSoldador() != null && r.getMinutosTrabalhados() != null)
                 .collect(Collectors.groupingBy(
-                        r -> r.getSoldador() .getName(),
+                        // Altera aqui para o getter exato que tens na classe Soldador
+                        r -> r.getSoldador().getSoldadorName(),
                         Collectors.summingInt(RegistoTrabalhoEntity::getMinutosTrabalhados)
                 ));
-        
     }
 
     private List<RegistoTrabalhoEntity> getALL() {
