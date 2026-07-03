@@ -21,17 +21,14 @@ public class SoldadorEntity {
     @Column(name = "papel", nullable = false)
     private String papel;
 
-    // Construtor vazio obrigatório pelo JPA
     public SoldadorEntity() {}
 
-    // Construtor completo
     public SoldadorEntity(String soldadorName, String password, String papel) {
         this.soldadorName = soldadorName;
         this.password = password;
         this.papel = papel;
     }
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
