@@ -9,7 +9,7 @@ public class SoldadorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(accessMode = Schema.AccessMode.READ_ONLY) // Esconde do POST/PUT no Swagger
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Long id;
 
     @Column(name = "soldador_name", nullable = false)
