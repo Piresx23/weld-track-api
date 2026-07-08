@@ -21,6 +21,7 @@ public class SoldadorEntity {
     @Column(name = "papel", nullable = false)
     private String papel;
 
+
     public SoldadorEntity() {}
 
     public SoldadorEntity(String soldadorName, String password, String papel) {

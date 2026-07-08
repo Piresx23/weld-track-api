@@ -46,7 +46,6 @@ public class RegistoTrabalhoService {
         return registos.stream()
                 .filter(r -> r.getSoldador() != null && r.getMinutosTrabalhados() != null)
                 .collect(Collectors.groupingBy(
-                        // Altera aqui para o getter exato que tens na classe Soldador
                         r -> r.getSoldador().getSoldadorName(),
                         Collectors.summingInt(RegistoTrabalhoEntity::getMinutosTrabalhados)
                 ));
