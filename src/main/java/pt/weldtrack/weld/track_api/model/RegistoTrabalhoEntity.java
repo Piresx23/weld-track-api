@@ -22,7 +22,7 @@ public class RegistoTrabalhoEntity {
     private String name;
     private Integer minutosTrabalhados;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "soldador_id", nullable = false)
     @JsonIgnoreProperties("registos")
     private SoldadorEntity soldador;

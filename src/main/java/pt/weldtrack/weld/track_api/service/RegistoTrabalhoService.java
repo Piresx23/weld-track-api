@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import pt.weldtrack.weld.track_api.model.RegistoTrabalhoEntity;
+import pt.weldtrack.weld.track_api.model.SoldadorEntity;
 import pt.weldtrack.weld.track_api.repository.RegistoTrabalhoRepository;
 
 import java.util.List;
@@ -17,9 +18,11 @@ import java.util.stream.Collectors;
 public class RegistoTrabalhoService {
 
     private final RegistoTrabalhoRepository repository;
+    private final SoldadorService soldadorService;
 
-    public RegistoTrabalhoService(RegistoTrabalhoRepository repository) {
+    public RegistoTrabalhoService(RegistoTrabalhoRepository repository, SoldadorService soldadorService) {
         this.repository = repository;
+        this.soldadorService = soldadorService;
     }
 
     public List<RegistoTrabalhoEntity> getAll() {
@@ -32,8 +35,19 @@ public class RegistoTrabalhoService {
                         new ResponseStatusException(HttpStatus.NOT_FOUND, "Soldador não encontrado com o ID: " + id)
                 );
     }
-    public RegistoTrabalhoEntity criar(RegistoTrabalhoEntity r) {
-        return repository.save(r);
+    public RegistoTrabalhoEntity criar(RegistoTrabalhoEntity registo) {
+        if (registo.getSoldador() != null) {
+            if (registo.getSoldador().getId() == null) {
+                SoldadorEntity soldadorSeguro = soldadorService.criar(registo.getSoldador());
+
+                registo.setSoldador(soldadorSeguro);
+            } else {
+                SoldadorEntity existente = soldadorService.buscarPorId(registo.getSoldador().getId());
+                registo.setSoldador(existente);
+            }
+        }
+
+        return repository.save(registo);
     }
 
     public void delete(Long id) {
