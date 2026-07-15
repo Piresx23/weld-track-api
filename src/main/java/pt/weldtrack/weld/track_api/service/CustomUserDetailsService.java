@@ -26,6 +26,4 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .roles(soldador.getPapel())
                 .build();
     }
-
-
 }
